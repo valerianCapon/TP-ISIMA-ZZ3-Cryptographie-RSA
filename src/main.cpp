@@ -83,7 +83,7 @@ void decryptRSA(mpz_t decryptedtext, const mpz_t ciphertext, const mpz_t private
 
 
 //################################ GMP ############################### 
-//################################ QUESTION 2 ########################
+//################################ QUESTION 3 ########################
 
 
 bool isProbablyPrime(mpz_t n, unsigned int k){
