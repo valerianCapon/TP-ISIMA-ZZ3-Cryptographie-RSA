@@ -4,12 +4,14 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <gmpxx.h>
+#include <gmp.h>
 
+//################################ RSA ############################### 
+
+//################################ QUESTION 1 ########################
 #define BITSTRENGTH 1024             /* size of modulus (n) in bits */
 #define PRIMESIZE (BITSTRENGTH / 2) /* size of the primes p and q  */
 
-/* Declare global variables */
 
 // Fonction pour générer une paire de clés RSA
 void generateRSAKeys(mpz_t publicKey, mpz_t privateKey, mpz_t modulus, unsigned int keySize)
@@ -41,12 +43,7 @@ void generateRSAKeys(mpz_t publicKey, mpz_t privateKey, mpz_t modulus, unsigned 
     // Choisir un exposant public (e) relativement premier à x
     mpz_t e;
     mpz_t tmp;
-    mpz_init(e);
-    mpz_init(tmp);
-    // mpz_init_set_ui(e, 65537);  // 65537 est un choix courant pour e
-    // while (mpz_gcd(e, x) != 1) {
-    //     mpz_add_ui(e, e, 2);  // Incrémenter jusqu'à trouver un e relativement premier
-    // }
+    mpz_inits(e, tmp, NULL);
     do
     {
         mpz_urandomb(e, state, keySize / 2);
@@ -67,6 +64,7 @@ void generateRSAKeys(mpz_t publicKey, mpz_t privateKey, mpz_t modulus, unsigned 
     gmp_randclear(state);
 }
 
+//################################ QUESTION 2 #########################
 // Fonction de chiffrement RSA
 void encryptRSA(mpz_t ciphertext, const mpz_t plaintext, const mpz_t publicKey, const mpz_t modulus)
 {
@@ -79,6 +77,61 @@ void decryptRSA(mpz_t decryptedtext, const mpz_t ciphertext, const mpz_t private
     mpz_powm(decryptedtext, ciphertext, privateKey, modulus);
 
 }
+//################################ RSA ############################### 
+
+
+
+
+//################################ GMP ############################### 
+//################################ QUESTION 2 ########################
+
+
+bool isProbablyPrime(mpz_t n, unsigned int k){
+    unsigned int s = 0;
+    mpz_t t;
+    mpz_inits(t, NULL);
+    if(mpz_cmp_ui(n,3) == 0){
+        return true;
+    }
+    // Write n −1 as t ×2s with t odd by factoring powers of 2 from n −1
+    mpz_set(t, n);
+    while (mpz_even_p(t))
+    {
+        mpz_divexact_ui(t, t, 2);
+        ++s;
+    }
+    
+    
+
+
+    return false;
+}
+
+
+
+void myNextPrime(mpz_t dest, mpz_t src){
+    unsigned int k = 10;
+    mpz_set(dest,src);
+
+    if (mpz_cmp_ui(dest, 2) <= 0 && !mpz_odd_p(dest))
+    {
+        std::cout << "Error : myNextPrime, given value is not greater then 2 or not odd" << std::endl;
+        exit(0);
+    }
+    
+    while (!isProbablyPrime(dest, k))
+    {
+        mpz_add_ui(dest, dest, 1);
+    }
+    
+}
+
+
+//################################ GMP ############################### 
+
+
+
+
 
 int main()
 {
@@ -115,6 +168,11 @@ int main()
 
     return 0;
 }
+
+
+
+
+
 
 
 
