@@ -109,14 +109,14 @@ int main()
     decryptRSA(decryptedtext, ciphertext, privateKey, modulus);
     std::cout << "Message déchiffré : " << mpz_get_str(NULL, 10, decryptedtext) << std::endl;
 
-    // Libération des ressources
-    mpz_clears(plaintext, ciphertext, decryptedtext, NULL);
-
     // Libérer la mémoire
     mpz_clears(publicKey, privateKey, modulus, NULL);
+    mpz_clears(plaintext, ciphertext, decryptedtext, NULL);
 
     return 0;
 }
+
+
 
 // /* Main subroutine */
 // int main()
